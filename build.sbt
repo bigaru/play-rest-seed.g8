@@ -1,3 +1,5 @@
+import play.sbt.routes.RoutesKeys
+
 name := """play-scala-seed"""
 organization := "com.example"
 
@@ -8,10 +10,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 scalaVersion := "2.12.7"
 
 libraryDependencies += "com.softwaremill.macwire" %% "macros" % "2.3.1" % "provided"
+libraryDependencies += "org.reactivemongo" % "play2-reactivemongo_2.12" % "0.16.0-play26"
+
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.example.controllers._"
-
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"
+RoutesKeys.routesImport += "play.modules.reactivemongo.PathBindables._"
