@@ -14,24 +14,19 @@ class MongoServiceImpl[T](collectionName:String)
 
   private def collection: Future[BSONCollection] = reactiveMongoApi.database.map(_.collection(collectionName))
 
-  def getOne(query: BSONDocument): Future[Option[T]] = {
-    collection.flatMap(
-      _.find(query)
-        .one[T])
-  }
-
-  def getOne(query: BSONDocument, sort: BSONDocument): Future[Option[T]] = {
+  def getOne(query: BSONDocument, sort: BSONDocument = BSONDocument()): Future[Option[T]] = {
     collection.flatMap(
       _.find(query)
         .sort(sort)
         .one[T])
   }
 
-  def getMany(query:BSONDocument): Future[Seq[T]] = {
+  def getMany(query:BSONDocument = BSONDocument(), sort: BSONDocument = BSONDocument(), countDocs: Int = -1): Future[Seq[T]] = {
     collection.flatMap(
       _.find(query)
+        .sort(sort)
         .cursor[T](ReadPreference.primary)
-        .collect[Seq](-1, Cursor.FailOnError[Seq[T]]()
+        .collect[Seq](countDocs, Cursor.FailOnError[Seq[T]]()
       )
     )
   }
@@ -39,7 +34,7 @@ class MongoServiceImpl[T](collectionName:String)
   def addOne(newItem: T): Future[Option[T]] = {
     collection.flatMap(
       _.insert(newItem)
-        .map( writeResult =>
+       .map( writeResult =>
           if (writeResult.ok) Some(newItem)
           else None
         )
@@ -49,14 +44,14 @@ class MongoServiceImpl[T](collectionName:String)
   def addMany(items: Seq[T]): Future[MultiBulkWriteResult] = {
     collection.flatMap(
       _.insert[T](ordered = false)
-        .many(items)
+       .many(items)
     )
   }
 
   def updateOne(selector: BSONDocument, updateModifier: BSONDocument): Future[Option[T]] = {
     collection.flatMap(
       _.findAndUpdate(selector, updateModifier, fetchNewObject = true)
-        .map(_.result[T])
+       .map(_.result[T])
     )
   }
 
@@ -66,10 +61,10 @@ class MongoServiceImpl[T](collectionName:String)
     )
   }
 
-  def delete(selector: BSONDocument): Future[Option[T]] = {
+  def deleteOne(selector: BSONDocument): Future[Option[T]] = {
     collection.flatMap(
       _.findAndRemove(selector)
-        .map(_.result[T])
+       .map(_.result[T])
     )
   }
 
