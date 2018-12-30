@@ -9,10 +9,10 @@ case class Item(
                  name: Option[String],
                  kind: Option[String],
                  weight: Option[Int]
-               ){
+               ) extends DbItem
+{
 
-  // TODO extract to a trait updateModifier
-  def updateModifier(): BSONDocument = BSONDocument(
+  def updateModifier = BSONDocument(
     "name" -> name,
     "kind" -> kind,
     "weight" -> weight,

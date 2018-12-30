@@ -9,4 +9,6 @@ a template for building restful API with Play framework in Scala
 - [ ] some unit tests
 - [ ] Swagger
 - [ ] G8
+- [ ] ScalaStyle
+- [ ] Scoverage
 
