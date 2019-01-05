@@ -16,16 +16,16 @@ class MongoServiceImpl[T](collectionName:String)
 
   def getOne(query: BSONDocument, sort: BSONDocument = BSONDocument()): Future[Option[T]] = {
     collection.flatMap(
-      _.find(query)
+      _.find(query, None)
         .sort(sort)
         .one[T])
   }
 
   def getMany(query:BSONDocument = BSONDocument(), sort: BSONDocument = BSONDocument(), countDocs: Int = -1): Future[Seq[T]] = {
     collection.flatMap(
-      _.find(query)
+      _.find(query, None)
         .sort(sort)
-        .cursor[T](ReadPreference.primary)
+        .cursor[T]()
         .collect[Seq](countDocs, Cursor.FailOnError[Seq[T]]()
       )
     )

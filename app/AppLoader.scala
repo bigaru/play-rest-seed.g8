@@ -32,9 +32,11 @@ class AppComponents(context: Context)
 
   implicit val ec: ExecutionContext = executionContext
   implicit val cc: ControllerComponents = controllerComponents
+  //TODO replace with ReactiveMongoApiComponents
   implicit val reactiveMongoApi: ReactiveMongoApi = new DefaultReactiveMongoApi("mainMongoDB", mongodbUri, configuredDb, true, configuration, applicationLifecycle)
   implicit val bsonObjectIDWriter: BSONDocumentWriter[BSONObjectID] = Macros.writer[BSONObjectID]
 
+  //TODO pass argmunt still using macwire
   implicit lazy val mongoService: MongoService[Item] = new MongoServiceImpl[Item]("items")
 
   lazy val itemRepository = new RegularRepository[Item, BSONObjectID]()
