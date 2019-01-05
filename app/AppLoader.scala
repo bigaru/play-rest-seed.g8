@@ -1,8 +1,8 @@
 
 import _root_.controllers.{AssetsComponents, HomeController}
 import com.softwaremill.macwire._
-import models.daos.ItemRepository
 import models.Item
+import models.daos.RegularRepository
 import play.api.ApplicationLoader.Context
 import play.api._
 import play.api.mvc.ControllerComponents
@@ -11,6 +11,7 @@ import play.filters.HttpFiltersComponents
 import play.modules.reactivemongo.{DefaultReactiveMongoApi, ReactiveMongoApi}
 import reactivemongo.api.MongoConnection
 import reactivemongo.api.MongoConnection.ParsedURI
+import reactivemongo.bson.{BSONDocumentWriter, BSONObjectID, Macros}
 import router.Routes
 import services.{MongoService, MongoServiceImpl}
 
@@ -32,10 +33,11 @@ class AppComponents(context: Context)
   implicit val ec: ExecutionContext = executionContext
   implicit val cc: ControllerComponents = controllerComponents
   implicit val reactiveMongoApi: ReactiveMongoApi = new DefaultReactiveMongoApi("mainMongoDB", mongodbUri, configuredDb, true, configuration, applicationLifecycle)
+  implicit val bsonObjectIDWriter: BSONDocumentWriter[BSONObjectID] = Macros.writer[BSONObjectID]
 
   implicit lazy val mongoService: MongoService[Item] = new MongoServiceImpl[Item]("items")
 
-  lazy val itemRepository: ItemRepository = wire[ItemRepository]
+  lazy val itemRepository = new RegularRepository[Item, BSONObjectID]()
   lazy val homeController: HomeController = wire[HomeController]
 
   LoggerConfigurator(context.environment.classLoader).foreach {

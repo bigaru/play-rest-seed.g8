@@ -2,17 +2,17 @@ package models.daos
 
 import models.DbItem
 import reactivemongo.api.commands.MultiBulkWriteResult
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
+import reactivemongo.bson.{BSONDocument, BSONDocumentWriter}
 import services.MongoService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-abstract class BaseRepository[T <: DbItem]()(implicit ec: ExecutionContext, mongoService: MongoService[T]){
+class RegularRepository[T <: DbItem, SELECTOR]()(implicit ec: ExecutionContext, mongoService: MongoService[T], bsonSelectorWriter: BSONDocumentWriter[SELECTOR]){
 
   def getAll: Future[Seq[T]] =
     mongoService.getMany()
 
-  def getOne(id: BSONObjectID): Future[Option[T]] =
+  def getOne(id: SELECTOR): Future[Option[T]] =
     mongoService.getOne(BSONDocument("_id" -> id))
 
   def addOne(item: T): Future[Option[T]] =
@@ -21,10 +21,10 @@ abstract class BaseRepository[T <: DbItem]()(implicit ec: ExecutionContext, mong
   def addMany(items: Seq[T]): Future[MultiBulkWriteResult] =
     mongoService.addMany(items)
 
-  def updateOne(id: BSONObjectID, newOne: T): Future[Option[T]] =
+  def updateOne(id: SELECTOR, newOne: T): Future[Option[T]] =
     mongoService.updateOne(BSONDocument("_id" -> id), newOne.updateModifier)
 
-  def deleteOne(id: BSONObjectID): Future[Option[T]] =
+  def deleteOne(id: SELECTOR): Future[Option[T]] =
     mongoService.deleteOne(BSONDocument("_id" -> id))
 
 }
