@@ -1,13 +1,12 @@
 package models.daos
 
-import models.Updateable
 import reactivemongo.api.commands.MultiBulkWriteResult
 import reactivemongo.bson.BSONDocument
 import services.MongoService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RegularRepository[T <: Updateable, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, makeSelector: SELECTOR => BSONDocument){
+class RegularRepository[T <: Updateable, SELECTOR](mongoService: MongoService[T], ec: ExecutionContext)(implicit makeSelector: SELECTOR => BSONDocument){
 
   def getAll: Future[Seq[T]] =
     mongoService.getMany()

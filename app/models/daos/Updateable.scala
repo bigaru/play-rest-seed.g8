@@ -1,4 +1,4 @@
-package models
+package models.daos
 
 import reactivemongo.bson.BSONDocument
 

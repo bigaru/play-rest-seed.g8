@@ -1,5 +1,6 @@
 package models
 
+import models.daos.Updateable
 import play.api.libs.json.{Format, Json}
 import reactivemongo.play.json._
 import reactivemongo.bson.{BSONDocument, BSONDocumentHandler, BSONObjectID, Macros}
