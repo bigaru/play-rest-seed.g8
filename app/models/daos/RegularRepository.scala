@@ -7,7 +7,7 @@ import services.MongoService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RegularRepository[T <: DbItem, SELECTOR]()(implicit ec: ExecutionContext, mongoService: MongoService[T], bsonSelectorWriter: BSONDocumentWriter[SELECTOR]){
+class RegularRepository[T <: DbItem, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, bsonSelectorWriter: BSONDocumentWriter[SELECTOR]){
 
   def getAll: Future[Seq[T]] =
     mongoService.getMany()

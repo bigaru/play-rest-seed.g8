@@ -8,9 +8,7 @@ import play.api._
 import play.api.mvc.ControllerComponents
 import play.api.routing.Router
 import play.filters.HttpFiltersComponents
-import play.modules.reactivemongo.{DefaultReactiveMongoApi, ReactiveMongoApi}
-import reactivemongo.api.MongoConnection
-import reactivemongo.api.MongoConnection.ParsedURI
+import play.modules.reactivemongo.ReactiveMongoApiFromContext
 import reactivemongo.bson.{BSONDocumentWriter, BSONObjectID, Macros}
 import router.Routes
 import services.{MongoService, MongoServiceImpl}
@@ -22,25 +20,21 @@ class AppLoader extends ApplicationLoader {
 }
 
 class AppComponents(context: Context)
-  extends BuiltInComponentsFromContext(context)
+  extends ReactiveMongoApiFromContext(context)
   with AssetsComponents
   with HttpFiltersComponents {
 
-  private val configuredUri = configuration.get[String]("mongodb.uri")
-  private val configuredDb  = configuration.get[String]("mongodb.dbname")
-  private val mongodbUri:ParsedURI = MongoConnection.parseURI(configuredUri).get
-
   implicit val ec: ExecutionContext = executionContext
   implicit val cc: ControllerComponents = controllerComponents
-  //TODO replace with ReactiveMongoApiComponents
-  implicit val reactiveMongoApi: ReactiveMongoApi = new DefaultReactiveMongoApi("mainMongoDB", mongodbUri, configuredDb, true, configuration, applicationLifecycle)
   implicit val bsonObjectIDWriter: BSONDocumentWriter[BSONObjectID] = Macros.writer[BSONObjectID]
 
-  //TODO pass argmunt still using macwire
-  implicit lazy val mongoService: MongoService[Item] = new MongoServiceImpl[Item]("items")
+  lazy val itemMongo: MongoService[Item] = {
+    val collectionName = "items"
+    wire[MongoServiceImpl[Item]]
+  }
 
-  lazy val itemRepository = new RegularRepository[Item, BSONObjectID]()
-  lazy val homeController: HomeController = wire[HomeController]
+  lazy val itemRepository = wire[RegularRepository[Item, BSONObjectID]]
+  lazy val homeController = wire[HomeController]
 
   LoggerConfigurator(context.environment.classLoader).foreach {
     _.configure(context.environment, context.initialConfiguration, Map.empty)

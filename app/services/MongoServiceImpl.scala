@@ -1,15 +1,15 @@
 package services
 
 import play.modules.reactivemongo.ReactiveMongoApi
-import reactivemongo.api.{Cursor, ReadPreference}
+import reactivemongo.api.Cursor
 import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.api.commands.{MultiBulkWriteResult, UpdateWriteResult}
 import reactivemongo.bson.{BSONDocument, BSONDocumentHandler}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MongoServiceImpl[T](collectionName:String)
-                         (implicit ec: ExecutionContext, reactiveMongoApi: ReactiveMongoApi, bsonDocumentHandler: BSONDocumentHandler[T])
+class MongoServiceImpl[T](collectionName:String, reactiveMongoApi: ReactiveMongoApi)
+                         (implicit ec: ExecutionContext, bsonDocumentHandler: BSONDocumentHandler[T])
   extends MongoService[T] {
 
   private def collection: Future[BSONCollection] = reactiveMongoApi.database.map(_.collection(collectionName))
