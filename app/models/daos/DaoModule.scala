@@ -14,8 +14,8 @@ trait DaoModule extends ServiceModule{
   implicit val ec: ExecutionContext = executionContext
   implicit val cc: ControllerComponents = controllerComponents
 
-  lazy val itemRepository = {
+  lazy val itemRepository: ItemRepository = {
     import Item.makeSelector
-    wire[ItemRepository]
+    wire[ItemRepositoryImpl]
   }
 }
