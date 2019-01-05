@@ -1,19 +1,19 @@
 package models.daos
 
-import models.DbItem
+import models.Updateable
 import reactivemongo.api.commands.MultiBulkWriteResult
-import reactivemongo.bson.{BSONDocument, BSONDocumentWriter}
+import reactivemongo.bson.BSONDocument
 import services.MongoService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RegularRepository[T <: DbItem, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, bsonSelectorWriter: BSONDocumentWriter[SELECTOR]){
+class RegularRepository[T <: Updateable, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, makeSelector: SELECTOR => BSONDocument){
 
   def getAll: Future[Seq[T]] =
     mongoService.getMany()
 
   def getOne(id: SELECTOR): Future[Option[T]] =
-    mongoService.getOne(BSONDocument("_id" -> id))
+    mongoService.getOne(makeSelector(id))
 
   def addOne(item: T): Future[Option[T]] =
     mongoService.addOne(item)
@@ -22,9 +22,9 @@ class RegularRepository[T <: DbItem, SELECTOR](mongoService: MongoService[T])(im
     mongoService.addMany(items)
 
   def updateOne(id: SELECTOR, newOne: T): Future[Option[T]] =
-    mongoService.updateOne(BSONDocument("_id" -> id), newOne.updateModifier)
+    mongoService.updateOne(makeSelector(id), newOne.updateModifier)
 
   def deleteOne(id: SELECTOR): Future[Option[T]] =
-    mongoService.deleteOne(BSONDocument("_id" -> id))
+    mongoService.deleteOne(makeSelector(id))
 
 }

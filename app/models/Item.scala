@@ -9,8 +9,7 @@ case class Item(
                  name: Option[String],
                  kind: Option[String],
                  weight: Option[Int]
-               ) extends DbItem
-{
+) extends Updateable {
 
   def updateModifier = BSONDocument(
     "name" -> name,
@@ -23,4 +22,5 @@ object Item {
   implicit val itemBson: BSONDocumentHandler[Item] = Macros.handler[Item]
   implicit val itemJson: Format[Item] = Json.format[Item]
 
+  implicit def makeSelector(id: BSONObjectID): BSONDocument = BSONDocument("_id" -> id)
 }

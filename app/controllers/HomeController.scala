@@ -1,10 +1,16 @@
 package controllers
 
+import models.daos.ItemRepository
+import play.api.libs.json.Json
 import play.api.mvc._
+import reactivemongo.bson.BSONObjectID
 
-class HomeController ()(cc: ControllerComponents) extends AbstractController(cc) {
+import scala.concurrent.ExecutionContext
 
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
+class HomeController (itemRepo: ItemRepository, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+
+  def index() = Action.async{
+    itemRepo.getOne(BSONObjectID.parse("5c27aae554dfebb17f400e09").get)
+            .map(item => Ok(Json.toJson(item)))
   }
 }

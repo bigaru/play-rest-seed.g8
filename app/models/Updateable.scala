@@ -2,6 +2,6 @@ package models
 
 import reactivemongo.bson.BSONDocument
 
-trait DbItem {
+trait Updateable {
   def updateModifier: BSONDocument
 }
