@@ -3,7 +3,7 @@ package models.daos
 import reactivemongo.api.commands.MultiBulkWriteResult
 import scala.concurrent.Future
 
-trait RegularRepository[T <: Updateable, SELECTOR]{
+trait RegularRepository[T, SELECTOR]{
 
   def getAll: Future[Seq[T]]
 
