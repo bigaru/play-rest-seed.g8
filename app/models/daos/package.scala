@@ -1,13 +1,9 @@
 package models
 
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
+import reactivemongo.bson.BSONDocument
 
 package object daos {
-  trait Updateable {
-    def updateModifier: BSONDocument
-  }
-
-  type ItemRepository = RegularRepository[Item, BSONObjectID]
-  type ItemRepositoryImpl = RegularRepositoryImpl[Item, BSONObjectID]
+  type BookRepository = RegularRepository[Book, String]
+  type BookRepositoryImpl = RegularRepositoryImpl[Book, String]
 
 }

@@ -1,7 +1,7 @@
 package models.daos
 
 import com.softwaremill.macwire.wire
-import models.Item
+import models.Book
 import play.api.mvc.ControllerComponents
 import play.modules.reactivemongo.ReactiveMongoApiFromContext
 import services.ServiceModule
@@ -14,8 +14,8 @@ trait DaoModule extends ServiceModule{
   implicit val ec: ExecutionContext = executionContext
   implicit val cc: ControllerComponents = controllerComponents
 
-  lazy val itemRepository: ItemRepository = {
-    import Item.makeSelector
-    wire[ItemRepositoryImpl]
+  lazy val bookRepository: BookRepository = {
+    import Book.makeSelector
+    wire[BookRepositoryImpl]
   }
 }
