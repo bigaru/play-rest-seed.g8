@@ -7,7 +7,7 @@ trait RegularRepository[T, SELECTOR]{
 
   def getAll: Future[Seq[T]]
 
-  def getOne(id: SELECTOR): Future[Option[T]]
+  def getOne(id: SELECTOR): Future[Either[(Int,String), T]]
 
   def addOne(item: T): Future[Option[T]]
 

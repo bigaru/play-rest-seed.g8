@@ -17,8 +17,8 @@ class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implici
 
   def getOne(isbn: String) = Action.async{
     bookRepo.getOne(isbn).map{
-      case Some(book) => Ok( Json.toJson(book) )
-      case _ => NotFound("not found")
+      case Right(book) => Ok( Json.toJson(book) )
+      case Left((status, msg)) => new Status(status)(msg)
     }
   }
 
