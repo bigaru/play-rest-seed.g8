@@ -5,9 +5,14 @@ import services.MongoService
 import models.DbSyntax._
 import play.api.http.Status._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
-class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, updateInstance: UpdateModifier[T], makeSelectorInstance: MakeSelector[SELECTOR])
+class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])
+                                        (
+                                          implicit ec: ExecutionContext,
+                                          updateInstance: UpdateModifier[T],
+                                          makeSelectorInstance: MakeSelector[SELECTOR]
+                                        )
  extends RegularRepository[T, SELECTOR] {
 
   def getAll =
@@ -27,8 +32,7 @@ class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(implicit
 
   def addMany(items: Seq[T]) =
     mongoService.addMany(items).map{ result =>
-      if (result) Right(true)
-      else Left((INTERNAL_SERVER_ERROR, "failed to insert"))
+      if (result) Right(true) else Left((INTERNAL_SERVER_ERROR, "failed to insert"))
     }
 
   def updateOne(id: SELECTOR, newOne: T) =
