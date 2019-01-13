@@ -8,10 +8,8 @@ import play.api.http.Status._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T], ec: ExecutionContext)(implicit updateInstance: UpdateModifier[T], makeSelectorInstance: MakeSelector[SELECTOR])
+class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(implicit ec: ExecutionContext, updateInstance: UpdateModifier[T], makeSelectorInstance: MakeSelector[SELECTOR])
  extends RegularRepository[T, SELECTOR] {
-
-  private implicit val executionContext: ExecutionContext = ec
 
   def getAll: Future[Seq[T]] =
     mongoService.getMany()
