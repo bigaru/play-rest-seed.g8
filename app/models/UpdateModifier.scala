@@ -2,12 +2,12 @@ package models
 
 import reactivemongo.bson.BSONDocument
 
-trait Update[A] {
+trait UpdateModifier[A] {
   def updateModifier(item: A): BSONDocument
 }
 
-object Update {
-  implicit val updateBook = new Update[Book] {
+object UpdateModifier {
+  implicit val updateBook = new UpdateModifier[Book] {
     def updateModifier(book: Book) = BSONDocument(
       "name" -> book.name,
       "description" -> book.description,
@@ -17,7 +17,7 @@ object Update {
     )
   }
 
-  implicit val updateBookStaple = new Update[BookStaple] {
+  implicit val updateBookStaple = new UpdateModifier[BookStaple] {
     def updateModifier(staple: BookStaple) = BSONDocument(
       "name" -> staple.name,
       "description" -> staple.description,
@@ -25,13 +25,4 @@ object Update {
     )
   }
 
-}
-
-
-object UpdateSyntax {
-  implicit class UpdateOps[A](value: A) {
-    def updateModifier(implicit instance: Update[A]) = {
-      instance.updateModifier(value)
-    }
-  }
 }

@@ -1,7 +1,7 @@
 package services
 
 import com.softwaremill.macwire.wire
-import models.Book
+import models.{Book, BookStaple}
 import play.modules.reactivemongo.ReactiveMongoApiFromContext
 
 trait ServiceModule {
@@ -10,5 +10,10 @@ trait ServiceModule {
   lazy val bookMongo: MongoService[Book] = {
     val collectionName = "books"
     wire[MongoServiceImpl[Book]]
+  }
+
+  lazy val stapleMongo: MongoService[BookStaple] = {
+    val collectionName = "staples"
+    wire[MongoServiceImpl[BookStaple]]
   }
 }
