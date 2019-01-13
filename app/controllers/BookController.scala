@@ -1,13 +1,22 @@
 package controllers
 
+import cats.implicits._
+import cats.data.EitherT
 import models.Book
 import models.daos.BookRepository
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+
+  private def validateBody(body: JsValue): Future[Either[(Int, String), Book]] = Future{
+    body.asOpt[Book] match {
+      case Some(validBook) => Right(validBook)
+      case _ => Left((BAD_REQUEST, "invalid book format"))
+    }
+  }
 
   def getAll = Action.async{
     bookRepo.getAll.map{books =>
@@ -23,17 +32,14 @@ class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implici
   }
 
   def createOne = Action.async(parse.json){ req =>
-    val body = req.body.asOpt[Book]
-    body match {
-      case Some(newOne) =>
-        bookRepo.addOne(newOne).map {
-          case Some(book) => Created(Json.toJson(book))
-          case _ => InternalServerError("failed to insert")
-        }
+    val result = for (
+      validBook <- EitherT(validateBody(req.body));
+      insertedBook <- EitherT(bookRepo.addOne(validBook))
+    ) yield insertedBook
 
-      case _ => Future.successful(
-        BadRequest("invalid body format")
-      )
+    result.value.map{
+      case Right(book) => Created( Json.toJson(book) )
+      case Left((status, msg)) => new Status(status)(msg)
     }
   }
 

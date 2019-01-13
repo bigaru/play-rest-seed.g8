@@ -20,8 +20,11 @@ class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(implicit
       case _ => Left((NOT_FOUND, "not found"))
     }
 
-  def addOne(item: T): Future[Option[T]] =
-    mongoService.addOne(item)
+  def addOne(newOne: T): Future[Either[(Int,String), T]] =
+    mongoService.addOne(newOne).map{
+      case Some(insertedOne) => Right(insertedOne)
+      case _ => Left((INTERNAL_SERVER_ERROR, "failed to insert"))
+    }
 
   def addMany(items: Seq[T]): Future[MultiBulkWriteResult] =
     mongoService.addMany(items)
