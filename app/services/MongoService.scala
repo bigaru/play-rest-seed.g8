@@ -12,11 +12,11 @@ trait MongoService[T]{
 
   def addOne(newItem: T): Future[Option[T]]
 
-  def addMany(items: Seq[T]): Future[MultiBulkWriteResult]
+  def addMany(items: Seq[T]): Future[Boolean]
 
   def updateOne(selector: BSONDocument, updateModifier: BSONDocument): Future[Option[T]]
 
-  def updateMany(selector: BSONDocument, updateModifier: BSONDocument): Future[UpdateWriteResult]
+  def updateMany(selector: BSONDocument, updateModifier: BSONDocument): Future[Boolean]
 
   def deleteOne(selector: BSONDocument): Future[Option[T]]
 }

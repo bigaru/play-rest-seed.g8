@@ -44,24 +44,21 @@ class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implici
   }
 
   def update(isbn: String) = Action.async(parse.json){ req =>
-    val body = req.body.asOpt[Book]
-    body match {
-      case Some(newOne) =>
-        bookRepo.updateOne(isbn, newOne).map {
-          case Some(book) => Ok(Json.toJson(book))
-          case _ => InternalServerError("failed to update")
-        }
+    val result = for (
+      validBook <- EitherT(validateBody(req.body));
+      updatedBook <- EitherT(bookRepo.updateOne(isbn, validBook))
+    ) yield updatedBook
 
-      case _ => Future.successful(
-        BadRequest("invalid body format")
-      )
+    result.value.map{
+      case Right(book) => Ok( Json.toJson(book) )
+      case Left((status, msg)) => new Status(status)(msg)
     }
   }
 
   def delete(isbn: String) = Action.async{
     bookRepo.deleteOne(isbn).map{
-      case Some(book) => Ok( Json.toJson(book) )
-      case _ => InternalServerError("failed to delete")
+      case Right(book) => Ok( Json.toJson(book) )
+      case Left((status, msg)) => new Status(status)(msg)
     }
   }
 }

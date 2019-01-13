@@ -1,20 +1,19 @@
 package models.daos
 
-import reactivemongo.api.commands.MultiBulkWriteResult
 import scala.concurrent.Future
 
 trait RegularRepository[T, SELECTOR]{
 
   def getAll: Future[Seq[T]]
 
-  def getOne(id: SELECTOR): Future[Either[(Int,String), T]]
+  def getOne(id: SELECTOR): Future[Either[ErrorMsg, T]]
 
-  def addOne(item: T): Future[Either[(Int,String), T]]
+  def addOne(item: T): Future[Either[ErrorMsg, T]]
 
-  def addMany(items: Seq[T]): Future[MultiBulkWriteResult]
+  def addMany(items: Seq[T]): Future[Either[ErrorMsg, Boolean]]
 
-  def updateOne(id: SELECTOR, newOne: T): Future[Option[T]]
+  def updateOne(id: SELECTOR, newOne: T): Future[Either[ErrorMsg, T]]
 
-  def deleteOne(id: SELECTOR): Future[Option[T]]
+  def deleteOne(id: SELECTOR): Future[Either[ErrorMsg, T]]
 
 }

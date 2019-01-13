@@ -3,6 +3,8 @@ package models
 import reactivemongo.bson.BSONObjectID
 
 package object daos {
+  type ErrorMsg = (Int,String)
+
   type BookRepository = RegularRepository[Book, String]
   type BookRepositoryImpl = RegularRepositoryImpl[Book, String]
 

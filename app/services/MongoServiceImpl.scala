@@ -3,7 +3,6 @@ package services
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.Cursor
 import reactivemongo.api.collections.bson.BSONCollection
-import reactivemongo.api.commands.{MultiBulkWriteResult, UpdateWriteResult}
 import reactivemongo.bson.{BSONDocument, BSONDocumentHandler}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,17 +34,17 @@ class MongoServiceImpl[T](collectionName:String, reactiveMongoApi: ReactiveMongo
     collection.flatMap(
       _.insert(newItem)
        .map( writeResult =>
-          if (writeResult.ok) Some(newItem)
-          else None
+          if (writeResult.ok) Some(newItem) else None
         )
-    )
+    ).recover{ case _ => None }
   }
 
-  def addMany(items: Seq[T]): Future[MultiBulkWriteResult] = {
+  def addMany(items: Seq[T]): Future[Boolean] = {
     collection.flatMap(
       _.insert[T](ordered = false)
        .many(items)
-    )
+       .map( _.ok)
+    ).recover{ case _ => false }
   }
 
   def updateOne(selector: BSONDocument, updateModifier: BSONDocument): Future[Option[T]] = {
@@ -55,10 +54,11 @@ class MongoServiceImpl[T](collectionName:String, reactiveMongoApi: ReactiveMongo
     )
   }
 
-  def updateMany(selector: BSONDocument, updateModifier: BSONDocument): Future[UpdateWriteResult] = {
+  def updateMany(selector: BSONDocument, updateModifier: BSONDocument): Future[Boolean] = {
     collection.flatMap(
       _.update(selector, updateModifier, multi = true)
-    )
+       .map( _.ok)
+    ).recover{ case _ => false }
   }
 
   def deleteOne(selector: BSONDocument): Future[Option[T]] = {
