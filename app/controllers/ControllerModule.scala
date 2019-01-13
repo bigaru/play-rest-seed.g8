@@ -7,4 +7,5 @@ trait ControllerModule {
   daoModule: DaoModule =>
 
   lazy val homeController = wire[HomeController]
+  lazy val bookController = wire[BookController]
 }
