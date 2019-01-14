@@ -17,6 +17,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.5.0"
 libraryDependencies += "org.webjars" % "swagger-ui" % "3.20.3"
 
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+libraryDependencies += "org.mockito" % "mockito-core" % "2.23.4" % Test
 
 RoutesKeys.routesImport += "play.modules.reactivemongo.PathBindables._"
 swaggerDomainNameSpaces := Seq("models")
