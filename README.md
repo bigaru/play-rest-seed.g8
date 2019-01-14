@@ -1,9 +1,12 @@
-A [Giter8][g8] template for ...!
+A [Giter8][g8] template for summoning restful daemons!
 
-Template license
-----------------
-Written in <YEAR> by <AUTHOR NAME> <AUTHOR E-MAIL ADDRESS>
-[other author/contributor lines as appropriate]
+#To summon
+```
+sbt new bigaru/play-rest-seed.g8
+```
+
+#Template license
+Written in 2018 by bigaru
 
 To the extent possible under law, the author(s) have dedicated all copyright and related
 and neighboring rights to this template to the public domain worldwide.
