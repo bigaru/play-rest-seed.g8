@@ -7,7 +7,9 @@ import scala.concurrent.{ExecutionContext, Future}
 class HomeController(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   def index() = Action.async{
-    Future.successful(Ok("It's running !"))
+    Future.successful(
+      Redirect("/swagger/index.html", Map("url" -> Seq("/assets/swagger.json")))
+    )
   }
 
 }

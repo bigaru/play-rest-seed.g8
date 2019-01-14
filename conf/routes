@@ -19,4 +19,7 @@ PUT       /v1/staples/:id                        controllers.StapleController.up
 DELETE    /v1/staples/:id                        controllers.StapleController.delete(id: reactivemongo.bson.BSONObjectID)
 
 ### NoDocs ###
+GET   /swagger/*file        controllers.Assets.at(path:String="/public/lib/swagger-ui", file:String)
+
+### NoDocs ###
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
