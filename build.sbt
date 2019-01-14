@@ -1,31 +1,12 @@
-import play.sbt.routes.RoutesKeys
-
-resolvers += Resolver.sbtPluginRepo("releases")
-resolvers += Resolver.jcenterRepo
-
-name := """play-scala-seed"""
-organization := "com.example"
-
-version := "1.0-SNAPSHOT"
-
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SwaggerPlugin)
-
-scalaVersion := "2.12.7"
-scalacOptions += "-Ypartial-unification"
-
-libraryDependencies += "com.softwaremill.macwire" %% "macros" % "2.3.1" % "provided"
-libraryDependencies += "org.reactivemongo" % "play2-reactivemongo_2.12" % "0.16.0-play26"
-libraryDependencies += "org.typelevel" %% "cats-core" % "1.5.0"
-libraryDependencies += "org.webjars" % "swagger-ui" % "3.20.3"
-
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
-libraryDependencies += "org.mockito" % "mockito-core" % "2.23.4" % Test
-
-RoutesKeys.routesImport += "play.modules.reactivemongo.PathBindables._"
-
-coverageExcludedPackages :=
-  """controllers\..*Reverse.*;router.Routes.*;
-    |Book.Routes.*;
-    |Staple.Routes.*;""".stripMargin
-
-swaggerDomainNameSpaces := Seq("models")
+// This build is for this Giter8 template.
+// To test the template run `g8` or `g8Test` from the sbt session.
+// See http://www.foundweekends.org/giter8/testing.html#Using+the+Giter8Plugin for more details.
+lazy val root = (project in file(".")).
+  settings(
+    name := "Play REST seed",
+    test in Test := {
+      val _ = (g8Test in Test).toTask("").value
+    },
+    scriptedLaunchOpts ++= List("-Xms1024m", "-Xmx1024m", "-XX:ReservedCodeCacheSize=128m", "-Xss2m", "-Dfile.encoding=UTF-8"),
+    resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
+  )

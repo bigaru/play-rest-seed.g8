@@ -1,14 +1,12 @@
-# WIP Work In Progress
+A [Giter8][g8] template for ...!
 
-a template for building restful API with Play framework in Scala
+Template license
+----------------
+Written in <YEAR> by <AUTHOR NAME> <AUTHOR E-MAIL ADDRESS>
+[other author/contributor lines as appropriate]
 
-## Progress
-- [x] MacWire DI
-- [x] ReactiveMongo
-- [x] some example REST endpoints
-- [ ] some unit tests
-- [ ] Swagger
-- [ ] G8
-- [x] ScalaStyle
-- [ ] Scoverage
+To the extent possible under law, the author(s) have dedicated all copyright and related
+and neighboring rights to this template to the public domain worldwide.
+This template is distributed without any warranty. See <http://creativecommons.org/publicdomain/zero/1.0/>.
 
+[g8]: http://www.foundweekends.org/giter8/
