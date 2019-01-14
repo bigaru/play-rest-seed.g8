@@ -1,4 +1,6 @@
 import play.sbt.routes.RoutesKeys
+
+resolvers += Resolver.sbtPluginRepo("releases")
 resolvers += Resolver.jcenterRepo
 
 name := """play-scala-seed"""
@@ -20,4 +22,10 @@ libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2
 libraryDependencies += "org.mockito" % "mockito-core" % "2.23.4" % Test
 
 RoutesKeys.routesImport += "play.modules.reactivemongo.PathBindables._"
+
+coverageExcludedPackages :=
+  """controllers\..*Reverse.*;router.Routes.*;
+    |Book.Routes.*;
+    |Staple.Routes.*;""".stripMargin
+
 swaggerDomainNameSpaces := Seq("models")
