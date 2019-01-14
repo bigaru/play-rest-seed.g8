@@ -3,7 +3,7 @@ package controllers
 import cats.data.EitherT
 import cats.implicits._
 import models.BookStaple
-import models.daos.{BookRepository, StapleRepository}
+import models.daos.StapleRepository
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONObjectID

@@ -1,11 +1,12 @@
 import play.sbt.routes.RoutesKeys
+resolvers += Resolver.jcenterRepo
 
 name := """play-scala-seed"""
 organization := "com.example"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SwaggerPlugin)
 
 scalaVersion := "2.12.7"
 scalacOptions += "-Ypartial-unification"
@@ -17,3 +18,4 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.5.0"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
 RoutesKeys.routesImport += "play.modules.reactivemongo.PathBindables._"
+swaggerDomainNameSpaces := Seq("models")
