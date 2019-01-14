@@ -1,6 +1,5 @@
 package services
 
-import reactivemongo.api.commands.{MultiBulkWriteResult, UpdateWriteResult}
 import reactivemongo.bson.BSONDocument
 
 import scala.concurrent.Future

@@ -5,10 +5,10 @@ a template for building restful API with Play framework in Scala
 ## Progress
 - [x] MacWire DI
 - [x] ReactiveMongo
-- [ ] some example REST endpoints
+- [x] some example REST endpoints
 - [ ] some unit tests
 - [ ] Swagger
 - [ ] G8
-- [ ] ScalaStyle
+- [x] ScalaStyle
 - [ ] Scoverage
 

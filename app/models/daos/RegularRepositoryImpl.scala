@@ -38,7 +38,7 @@ class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])
   def updateOne(id: SELECTOR, newOne: T) =
     mongoService.updateOne(id.makeSelector, newOne.updateModifier).map{
       case Some(updatedOne) => Right(updatedOne)
-      case _ => Left((INTERNAL_SERVER_ERROR, "failed to update"))
+      case _ => Left((NOT_FOUND, "not found"))
     }
 
   def deleteOne(id: SELECTOR) =

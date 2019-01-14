@@ -12,4 +12,5 @@ trait ControllerModule {
 
   lazy val homeController = wire[HomeController]
   lazy val bookController = wire[BookController]
+  lazy val stapleController = wire[StapleController]
 }
