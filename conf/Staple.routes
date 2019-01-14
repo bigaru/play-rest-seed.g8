@@ -1,0 +1,73 @@
+
+###
+#  summary: Get all bookstaples
+#  description: A book contains isbn, name, author, ...
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           type: array
+#           items:
+#               $ref: '#/definitions/models.BookStaple'
+###
+GET       /v1/staples/                           controllers.StapleController.getAll
+
+###
+#  summary: Get a single bookstaple
+#  description: identified by ISBN
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.BookStaple'
+#      404:
+#       description: not found
+###
+GET       /v1/staples/:id                        controllers.StapleController.getOne(id: reactivemongo.bson.BSONObjectID)
+
+###
+#  summary: Create new bookstaple
+#  description: ISBN must be mentioned
+#  responses:
+#      201:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.BookStaple'
+#      400:
+#       description: invalid staple format
+#      500:
+#       description: failed to insert
+###
+POST      /v1/staples/                           controllers.StapleController.createOne
+
+###
+#  summary: Update an existing bookstaple
+#  description:
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.BookStaple'
+#      400:
+#       description: invalid staple format
+#      404:
+#       description: not found
+###
+PUT       /v1/staples/:id                        controllers.StapleController.update(id: reactivemongo.bson.BSONObjectID)
+
+###
+#  summary: Delete a bookstaple
+#  description:
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.BookStaple'
+#      404:
+#       description: not found
+###
+DELETE    /v1/staples/:id                        controllers.StapleController.delete(id: reactivemongo.bson.BSONObjectID)
+
+
+### NoDocs ###
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

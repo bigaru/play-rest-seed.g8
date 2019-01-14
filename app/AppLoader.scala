@@ -26,6 +26,9 @@ class AppComponents(context: Context)
 
   lazy val router: Router = {
     val prefix: String = "/"
+
+    val bookRoutes = wire[Book.Routes]
+    val stapleRoutes = wire[Staple.Routes]
     wire[Routes]
   }
 

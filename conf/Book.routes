@@ -1,0 +1,72 @@
+
+###
+#  summary: Get all books
+#  description: A book contains isbn, name, author, ...
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           type: array
+#           items:
+#               $ref: '#/definitions/models.Book'
+###
+GET       /v1/books/                           controllers.BookController.getAll
+
+###
+#  summary: Get a single book
+#  description: identified by ISBN
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.Book'
+#      404:
+#       description: not found
+###
+GET       /v1/books/:isbn                      controllers.BookController.getOne(isbn: String)
+
+###
+#  summary: Create new book
+#  description: ISBN must be mentioned
+#  responses:
+#      201:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.Book'
+#      400:
+#       description: invalid book format
+#      500:
+#       description: failed to insert
+###
+POST      /v1/books/                           controllers.BookController.createOne
+
+###
+#  summary: Update an existing book
+#  description:
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.Book'
+#      400:
+#       description: invalid book format
+#      404:
+#       description: not found
+###
+PUT       /v1/books/:isbn                      controllers.BookController.update(isbn: String)
+
+###
+#  summary: Delete a book
+#  description:
+#  responses:
+#      200:
+#       description: ok
+#       schema:
+#           $ref: '#/definitions/models.Book'
+#      404:
+#       description: not found
+###
+DELETE    /v1/books/:isbn                      controllers.BookController.delete(isbn: String)
+
+### NoDocs ###
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
