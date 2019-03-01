@@ -2,7 +2,7 @@ package models.daos
 
 import scala.concurrent.Future
 
-trait RegularRepository[T, SELECTOR]{
+trait RegularRepository[T, SELECTOR] {
 
   def getAll: Future[Seq[T]]
 

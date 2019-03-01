@@ -9,19 +9,19 @@ trait UpdateModifier[A] {
 object UpdateModifier {
   implicit val updateBook = new UpdateModifier[Book] {
     def updateModifier(book: Book) = BSONDocument(
-      "name" -> book.name,
+      "name"        -> book.name,
       "description" -> book.description,
-      "author" -> book.author,
-      "pages" -> book.pages,
-      "paidPrice" -> book.paidPrice
+      "author"      -> book.author,
+      "pages"       -> book.pages,
+      "paidPrice"   -> book.paidPrice
     )
   }
 
   implicit val updateBookStaple = new UpdateModifier[BookStaple] {
     def updateModifier(staple: BookStaple) = BSONDocument(
-      "name" -> staple.name,
+      "name"        -> staple.name,
       "description" -> staple.description,
-      "books" -> staple.books
+      "books"       -> staple.books
     )
   }
 

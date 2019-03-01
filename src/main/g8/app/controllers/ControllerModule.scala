@@ -10,7 +10,7 @@ trait ControllerModule {
 
   implicit val ec: ExecutionContext = daoEC
 
-  lazy val homeController = wire[HomeController]
-  lazy val bookController = wire[BookController]
+  lazy val homeController   = wire[HomeController]
+  lazy val bookController   = wire[BookController]
   lazy val stapleController = wire[StapleController]
 }

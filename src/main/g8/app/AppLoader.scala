@@ -1,4 +1,3 @@
-
 import _root_.controllers.{AssetsComponents, ControllerModule}
 import com.softwaremill.macwire._
 import models.daos.DaoModule
@@ -14,11 +13,11 @@ class AppLoader extends ApplicationLoader {
 }
 
 class AppComponents(context: Context)
-  extends ReactiveMongoApiFromContext(context)
-  with AssetsComponents
-  with DaoModule
-  with ControllerModule
-  with HttpFiltersComponents {
+    extends ReactiveMongoApiFromContext(context)
+    with AssetsComponents
+    with DaoModule
+    with ControllerModule
+    with HttpFiltersComponents {
 
   LoggerConfigurator(context.environment.classLoader).foreach {
     _.configure(context.environment, context.initialConfiguration, Map.empty)
@@ -27,7 +26,7 @@ class AppComponents(context: Context)
   lazy val router: Router = {
     val prefix: String = "/"
 
-    val bookRoutes = wire[Book.Routes]
+    val bookRoutes   = wire[Book.Routes]
     val stapleRoutes = wire[Staple.Routes]
     wire[Routes]
   }
