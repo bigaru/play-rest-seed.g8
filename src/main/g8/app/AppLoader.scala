@@ -7,6 +7,7 @@ import play.api.routing.Router
 import play.filters.HttpFiltersComponents
 import play.modules.reactivemongo.ReactiveMongoApiFromContext
 import router.Routes
+import services.ServiceModule
 
 class AppLoader extends ApplicationLoader {
   def load(context: Context): Application = new AppComponents(context).application
@@ -15,6 +16,7 @@ class AppLoader extends ApplicationLoader {
 class AppComponents(context: Context)
     extends ReactiveMongoApiFromContext(context)
     with AssetsComponents
+    with ServiceModule
     with DaoModule
     with ControllerModule
     with HttpFiltersComponents {

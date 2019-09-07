@@ -4,8 +4,7 @@ import com.softwaremill.macwire.wire
 import models.{Book, BookStaple}
 import play.modules.reactivemongo.ReactiveMongoApiFromContext
 
-trait ServiceModule {
-  reactiveMongoComponents: ReactiveMongoApiFromContext =>
+trait ServiceModule { this: ReactiveMongoApiFromContext =>
 
   lazy val bookMongo: MongoService[Book] = {
     val collectionName = "books"

@@ -2,14 +2,9 @@ package controllers
 
 import com.softwaremill.macwire.wire
 import models.daos.DaoModule
+import play.api.BuiltInComponentsFromContext
 
-import scala.concurrent.ExecutionContext
-
-trait ControllerModule {
-  daoModule: DaoModule =>
-
-  implicit val ec: ExecutionContext = daoEC
-
+trait ControllerModule { this: BuiltInComponentsFromContext with DaoModule =>
   lazy val homeController   = wire[HomeController]
   lazy val bookController   = wire[BookController]
   lazy val stapleController = wire[StapleController]
