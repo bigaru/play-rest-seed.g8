@@ -1,7 +1,6 @@
 package services
 
 import reactivemongo.bson.BSONDocument
-
 import scala.concurrent.Future
 
 trait MongoService[T] {

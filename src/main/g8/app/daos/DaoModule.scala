@@ -1,4 +1,4 @@
-package models.daos
+package daos
 
 import com.softwaremill.macwire.wire
 import play.api.BuiltInComponentsFromContext

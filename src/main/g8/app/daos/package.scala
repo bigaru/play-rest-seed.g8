@@ -1,5 +1,4 @@
-package models
-
+import models.{Book, BookStaple}
 import reactivemongo.bson.BSONObjectID
 
 package object daos {
@@ -11,18 +10,17 @@ package object daos {
   type StapleRepository     = RegularRepository[BookStaple, BSONObjectID]
   type StapleRepositoryImpl = RegularRepositoryImpl[BookStaple, BSONObjectID]
 
-}
-
-object DbSyntax {
-  implicit class UpdateOps[A](value: A) {
-    def updateModifier(implicit instance: UpdateModifier[A]) = {
-      instance.updateModifier(value)
+  object DbSyntax {
+    implicit class UpdateOps[A](value: A) {
+      def updateModifier(implicit instance: UpdateModifier[A]) = {
+        instance.updateModifier(value)
+      }
     }
-  }
 
-  implicit class MakeSelectorOps[A](value: A) {
-    def makeSelector(implicit instance: MakeSelector[A]) = {
-      instance.makeSelector(value)
+    implicit class MakeSelectorOps[A](value: A) {
+      def makeSelector(implicit instance: MakeSelector[A]) = {
+        instance.makeSelector(value)
+      }
     }
   }
 }

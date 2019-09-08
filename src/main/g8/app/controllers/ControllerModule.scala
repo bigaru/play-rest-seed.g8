@@ -1,7 +1,7 @@
 package controllers
 
 import com.softwaremill.macwire.wire
-import models.daos.DaoModule
+import daos.DaoModule
 import play.api.BuiltInComponentsFromContext
 
 trait ControllerModule { this: BuiltInComponentsFromContext with DaoModule =>

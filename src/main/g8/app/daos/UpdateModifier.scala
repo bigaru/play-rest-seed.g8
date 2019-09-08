@@ -1,5 +1,6 @@
-package models
+package daos
 
+import models.{Book, BookStaple}
 import reactivemongo.bson.BSONDocument
 
 trait UpdateModifier[A] {

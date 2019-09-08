@@ -1,4 +1,4 @@
-package models
+package daos
 
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
 
@@ -14,5 +14,4 @@ object MakeSelector {
   implicit val makeObjectIdSelector = new MakeSelector[BSONObjectID] {
     def makeSelector(id: BSONObjectID) = BSONDocument("_id" -> id)
   }
-
 }

@@ -1,8 +1,7 @@
-package models.daos
+package daos
 
-import models.{MakeSelector, UpdateModifier}
+import DbSyntax._
 import services.MongoService
-import models.DbSyntax._
 import play.api.http.Status._
 
 import scala.concurrent.ExecutionContext

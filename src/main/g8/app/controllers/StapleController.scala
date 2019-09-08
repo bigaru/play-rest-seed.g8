@@ -3,11 +3,10 @@ package controllers
 import cats.data.EitherT
 import cats.implicits._
 import models.BookStaple
-import models.daos.StapleRepository
+import daos.StapleRepository
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONObjectID
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class StapleController(stapleRepo: StapleRepository, cc: ControllerComponents)(implicit ec: ExecutionContext)

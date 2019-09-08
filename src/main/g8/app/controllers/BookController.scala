@@ -3,10 +3,9 @@ package controllers
 import cats.implicits._
 import cats.data.EitherT
 import models.Book
-import models.daos.BookRepository
+import daos.BookRepository
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implicit ec: ExecutionContext)

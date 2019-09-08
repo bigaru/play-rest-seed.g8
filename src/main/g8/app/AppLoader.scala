@@ -1,6 +1,6 @@
 import _root_.controllers.{AssetsComponents, ControllerModule}
 import com.softwaremill.macwire._
-import models.daos.DaoModule
+import daos.DaoModule
 import play.api.ApplicationLoader.Context
 import play.api._
 import play.api.routing.Router

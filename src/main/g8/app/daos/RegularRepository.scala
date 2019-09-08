@@ -1,4 +1,4 @@
-package models.daos
+package daos
 
 import scala.concurrent.Future
 
