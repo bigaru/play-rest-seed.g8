@@ -5,6 +5,6 @@ import play.api.BuiltInComponentsFromContext
 import services.ServiceModule
 
 trait DaoModule { this: BuiltInComponentsFromContext with ServiceModule =>
-  lazy val bookRepository: BookRepository         = wire[BookRepositoryImpl]
-  lazy val bookStapleRepository: StapleRepository = wire[StapleRepositoryImpl]
+  lazy val bookRepository: BookDao         = wire[BookRepository]
+  lazy val bookStapleRepository: StapleDao = wire[StapleRepository]
 }

@@ -4,9 +4,9 @@ import reactivemongo.bson.BSONObjectID
 package object daos {
   type ErrorMsg = (Int, String)
 
-  type BookRepository     = RegularRepository[Book, String]
-  type BookRepositoryImpl = RegularRepositoryImpl[Book, String]
+  type BookDao        = BasicDao[Book, String]
+  type BookRepository = DefaultRepository[Book, String]
 
-  type StapleRepository     = RegularRepository[BookStaple, BSONObjectID]
-  type StapleRepositoryImpl = RegularRepositoryImpl[BookStaple, BSONObjectID]
+  type StapleDao        = BasicDao[BookStaple, BSONObjectID]
+  type StapleRepository = DefaultRepository[BookStaple, BSONObjectID]
 }

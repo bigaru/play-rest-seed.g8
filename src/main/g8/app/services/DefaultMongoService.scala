@@ -6,7 +6,7 @@ import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.bson.{BSONDocument, BSONDocumentHandler}
 import scala.concurrent.{ExecutionContext, Future}
 
-class MongoServiceImpl[T](collectionName: String, reactiveMongoApi: ReactiveMongoApi)(
+class DefaultMongoService[T](collectionName: String, reactiveMongoApi: ReactiveMongoApi)(
     implicit ec: ExecutionContext,
     bsonDocumentHandler: BSONDocumentHandler[T]
 ) extends MongoService[T] {

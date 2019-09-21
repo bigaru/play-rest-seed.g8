@@ -7,11 +7,11 @@ import CreateUpdate.ops._
 
 import scala.concurrent.ExecutionContext
 
-class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(
+class DefaultRepository[T, SELECTOR](mongoService: MongoService[T])(
     implicit ec: ExecutionContext,
     createUpdateInstance: CreateUpdate[T],
     makeSelectorInstance: MakeSelector[SELECTOR]
-) extends RegularRepository[T, SELECTOR] {
+) extends BasicDao[T, SELECTOR] {
 
   def getAll =
     mongoService.getMany()

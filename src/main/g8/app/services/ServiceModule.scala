@@ -8,11 +8,11 @@ trait ServiceModule { this: ReactiveMongoApiFromContext =>
 
   lazy val bookMongo: MongoService[Book] = {
     val collectionName = "books"
-    wire[MongoServiceImpl[Book]]
+    wire[DefaultMongoService[Book]]
   }
 
   lazy val stapleMongo: MongoService[BookStaple] = {
     val collectionName = "staples"
-    wire[MongoServiceImpl[BookStaple]]
+    wire[DefaultMongoService[BookStaple]]
   }
 }

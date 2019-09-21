@@ -3,12 +3,12 @@ package controllers
 import cats.implicits._
 import cats.data.EitherT
 import models.Book
-import daos.BookRepository
+import daos.BookDao
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import scala.concurrent.{ExecutionContext, Future}
 
-class BookController(bookRepo: BookRepository, cc: ControllerComponents)(implicit ec: ExecutionContext)
+class BookController(bookRepo: BookDao, cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AbstractController(cc) {
 
   private def validateBody(body: JsValue): Future[Either[(Int, String), Book]] = Future {

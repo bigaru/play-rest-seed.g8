@@ -3,13 +3,13 @@ package controllers
 import cats.data.EitherT
 import cats.implicits._
 import models.BookStaple
-import daos.StapleRepository
+import daos.StapleDao
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONObjectID
 import scala.concurrent.{ExecutionContext, Future}
 
-class StapleController(stapleRepo: StapleRepository, cc: ControllerComponents)(implicit ec: ExecutionContext)
+class StapleController(stapleRepo: StapleDao, cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AbstractController(cc) {
 
   private def validateBody(body: JsValue): Future[Either[(Int, String), BookStaple]] = Future {
