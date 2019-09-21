@@ -4,7 +4,8 @@ import org.scalatest.mockito.MockitoSugar
 import play.api.ApplicationLoader.Context
 import reactivemongo.bson.BSONDocument
 import services.MongoService
-import daos.DbSyntax._
+import daos.MakeSelector.ops._
+import daos.CreateUpdate.ops._
 
 import scala.concurrent.Future
 
@@ -41,17 +42,18 @@ class FakeComponentsForBook(context: Context) extends AppComponents(context) wit
   when(bookMongo.addOne(duplicatedBook)) thenReturn Future.successful(None)
 
   val updatedBook = Book("978-0141031484", "Fooled by Randomness", None, "Nassim Nicholas Taleb", 368, None)
-  when(bookMongo.updateOne("978-0141031484".makeSelector, updatedBook.updateModifier)) thenReturn Future.successful(
+  when(bookMongo.updateOne("978-0141031484".toSelector, updatedBook.createUpdate)) thenReturn Future.successful(
     Some(updatedBook))
 
-  when(bookMongo.updateOne(
-    "non-0141031484".makeSelector,
-    Book("non-0141031484", "Fooled by Randomness", None, "Nassim Nicholas Taleb", 368, None).updateModifier)) thenReturn Future
+  when(
+    bookMongo.updateOne(
+      "non-0141031484".toSelector,
+      Book("non-0141031484", "Fooled by Randomness", None, "Nassim Nicholas Taleb", 368, None).createUpdate)) thenReturn Future
     .successful(None)
 
   val deletedBook = Book("978-0141038223", "Antifragile", None, "Nassim Nicholas Taleb", 544, None)
-  when(bookMongo.deleteOne("978-0141038223".makeSelector)) thenReturn Future.successful(Some(deletedBook))
+  when(bookMongo.deleteOne("978-0141038223".toSelector)) thenReturn Future.successful(Some(deletedBook))
 
-  when(bookMongo.deleteOne("non-0141038223".makeSelector)) thenReturn Future.successful(None)
+  when(bookMongo.deleteOne("non-0141038223".toSelector)) thenReturn Future.successful(None)
 
 }

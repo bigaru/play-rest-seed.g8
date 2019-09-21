@@ -1,14 +1,15 @@
 package daos
 
-import DbSyntax._
 import services.MongoService
 import play.api.http.Status._
+import MakeSelector.ops._
+import CreateUpdate.ops._
 
 import scala.concurrent.ExecutionContext
 
 class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(
     implicit ec: ExecutionContext,
-    updateInstance: UpdateModifier[T],
+    createUpdateInstance: CreateUpdate[T],
     makeSelectorInstance: MakeSelector[SELECTOR]
 ) extends RegularRepository[T, SELECTOR] {
 
@@ -16,7 +17,7 @@ class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(
     mongoService.getMany()
 
   def getOne(id: SELECTOR) =
-    mongoService.getOne(id.makeSelector).map {
+    mongoService.getOne(id.toSelector).map {
       case Some(item) => Right(item)
       case _          => Left((NOT_FOUND, "not found"))
     }
@@ -33,13 +34,13 @@ class RegularRepositoryImpl[T, SELECTOR](mongoService: MongoService[T])(
     }
 
   def updateOne(id: SELECTOR, newOne: T) =
-    mongoService.updateOne(id.makeSelector, newOne.updateModifier).map {
+    mongoService.updateOne(id.toSelector, newOne.createUpdate).map {
       case Some(updatedOne) => Right(updatedOne)
       case _                => Left((NOT_FOUND, "not found"))
     }
 
   def deleteOne(id: SELECTOR) =
-    mongoService.deleteOne(id.makeSelector).map {
+    mongoService.deleteOne(id.toSelector).map {
       case Some(deletedOne) => Right(deletedOne)
       case _                => Left((NOT_FOUND, "not found"))
     }

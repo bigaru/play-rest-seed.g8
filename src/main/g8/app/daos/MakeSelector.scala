@@ -1,17 +1,18 @@
 package daos
 
+import simulacrum._
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
 
-trait MakeSelector[A] {
-  def makeSelector(item: A): BSONDocument
+@typeclass trait MakeSelector[A] {
+  def toSelector(item: A): BSONDocument
 }
 
 object MakeSelector {
   implicit val makeStringSelector = new MakeSelector[String] {
-    def makeSelector(id: String) = BSONDocument("_id" -> id)
+    def toSelector(id: String) = BSONDocument("_id" -> id)
   }
 
   implicit val makeObjectIdSelector = new MakeSelector[BSONObjectID] {
-    def makeSelector(id: BSONObjectID) = BSONDocument("_id" -> id)
+    def toSelector(id: BSONObjectID) = BSONDocument("_id" -> id)
   }
 }

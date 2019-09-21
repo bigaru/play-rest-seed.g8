@@ -1,7 +1,8 @@
 package models
 
+import daos.CreateUpdate
 import play.api.libs.json.{Format, Json}
-import reactivemongo.bson.{BSONDocumentHandler, BSONObjectID, Macros}
+import reactivemongo.bson.{BSONDocument, BSONDocumentHandler, BSONObjectID, Macros}
 import reactivemongo.play.json._
 
 case class BookStaple(
@@ -14,4 +15,12 @@ case class BookStaple(
 object BookStaple {
   implicit val bookStapleBson: BSONDocumentHandler[BookStaple] = Macros.handler[BookStaple]
   implicit val bookStapleJson: Format[BookStaple]              = Json.format[BookStaple]
+
+  implicit val updateBookStaple = new CreateUpdate[BookStaple] {
+    def createUpdate(staple: BookStaple) = BSONDocument(
+      "name"        -> staple.name,
+      "description" -> staple.description,
+      "books"       -> staple.books
+    )
+  }
 }
